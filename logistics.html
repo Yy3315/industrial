@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工业工程物料搬运解决方案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a4eb8;
+            --secondary-color: #6c63ff;
+            --accent-color: #e6e6e6;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 36px;
+            color: white;
+            margin-right: 12px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--light-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--light-color);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .primary-button {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .primary-button i {
+            margin-left: 8px;
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+        
+        .secondary-button:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        /* 搜索功能 */
+        .search-section {
+            background-color: white;
+            padding: 25px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-container {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e1e4e8;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .search-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* 功能亮点 */
+        .features {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h3 {
+            font-size: 30px;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            background-color: var(--primary-color);
+            color: white;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        
+        .feature-content {
+            padding: 20px;
+        }
+        
+        .feature-content h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .feature-content p {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .feature-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-link i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .feature-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* 工作流程 */
+        .workflow {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .workflow .section-title h3,
+        .workflow .section-title p {
+            color: white;
+        }
+        
+        .workflow-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            max-width: 180px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-content h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .step-content p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        /* 客户案例 */
+        .case-studies {
+            padding: 60px 0;
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .case-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .case-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .case-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .case-card:hover .case-image img {
+            transform: scale(1.05);
+        }
+        
+        .case-content {
+            padding: 20px;
+        }
+        
+        .case-content h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .case-content p {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .case-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #6c757d;
+            font-size: 13px;
+        }
+        
+        /* 统计数据 */
+        .stats {
+            background-color: #f8f9fa;
+            padding: 40px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 15px;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #6c757d;
+        }
+        
+        /* 联系表单 */
+        .contact {
+            padding: 60px 0;
+            background-color: var(--light-color);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .contact-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-info h4 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .contact-info p {
+            margin-bottom: 25px;
+            color: #6c757d;
+        }
+        
+        .contact-details {
+            margin-bottom: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-item i {
+            width: 35px;
+            height: 35px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e1e4e8;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .workflow-step {
+                margin-bottom: 25px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .feature-icon {
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+        
+        /* 新增样式 */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .tag {
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .feature-detail-button {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .feature-detail-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-cubes"></i>
+                    <h1>工业工程物流解决方案</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">首页</a></li>  <!-- 修改：跳回主首页 -->
+                    <li><a href="#features">解决方案</a></li>
+                    <li><a href="#workflow">工作流程</a></li>
+                    <li><a href="#case-studies">客户案例</a></li>
+                    <li><a href="#" class="cta-button">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h2>智能化物料搬运，提升工业工程效率</h2>
+                <p>我们提供先进的物料搬运解决方案，帮助您优化生产流程，降低成本，提高效率。</p>
+                <div class="hero-buttons">
+                    <a href="#features" class="primary-button">
+                        探索解决方案 <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="secondary-button">
+                        获取报价
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 搜索功能 -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索物料搬运解决方案...">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能亮点 -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h3>我们的解决方案</h3>
+                <p>我们提供全面的物料搬运解决方案，满足各种工业工程需求</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>自动化系统</h4>
+                        <p>采用先进的自动化技术，实现物料搬运的全自动化，减少人力成本，提高搬运效率。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>物料输送系统</h4>
+                        <p>定制化的输送系统解决方案，实现物料的高效运输和自动化处理，满足各种工业场景需求。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>仓储管理系统</h4>
+                        <p>智能仓储解决方案，优化库存管理，提高仓库空间利用率，实现货物的快速存取和精确管理。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>库存优化</h4>
+                        <p>先进的库存管理策略和工具，帮助您优化库存水平，减少库存成本，提高库存周转率。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>系统集成</h4>
+                        <p>将不同系统的功能集成到一个统一的平台，实现信息共享和流程自动化，提高整体效率。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>数据分析</h4>
+                        <p>利用大数据分析技术，实时监控和分析物料流转数据，优化流程，提高决策效率。</p>
+                        <a href="#" class="feature-link">
+                            了解更多 <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工作流程 -->
+    <section class="workflow" id="workflow">
+        <div class="container workflow-container">
+            <div class="section-title">
+                <h3>我们的工作流程</h3>
+                <p>我们遵循科学的工作流程，确保为客户提供最优质的解决方案</p>
+            </div>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>需求分析</h4>
+                        <p>深入了解客户业务需求和挑战，分析现有流程和问题。</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>方案设计</h4>
+                        <p>根据需求设计定制化的解决方案，提供详细的技术方案和实施计划。</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>系统实施</h4>
+                        <p>按照计划进行系统开发、部署和测试，确保方案顺利实施。</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>培训与交付</h4>
+                        <p>提供全面的系统培训，确保客户团队能够熟练使用新系统。</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>持续优化</h4>
+                        <p>提供持续的技术支持和优化服务，确保系统长期高效运行。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section class="case-studies" id="case-studies">
+        <div class="container">
+            <div class="section-title">
+                <h3>成功案例</h3>
+                <p>我们已经帮助众多企业实现物料搬运流程的优化和自动化</p>
+            </div>
+            <div class="case-grid">
+                <div class="case-card">
+                    <div class="case-image">
+                        <img src="https://images.unsplash.com/photo-1581822261290-991b38693d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="汽车制造厂物料搬运系统">
+                    </div>
+                    <div class="case-content">
+                        <h4>汽车制造厂物料搬运系统</h4>
+                        <p>为某知名汽车制造企业设计并实施了自动化物料输送系统，提高生产效率30%，减少人力成本40%。</p>
+                        <div class="case-meta">
+                            <span>汽车行业</span>
+                            <span>2022年</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="电子产品制造仓库改造">
+                    </div>
+                    <div class="case-content">
+                        <h4>电子产品制造仓库改造</h4>
+                        <p>帮助某大型电子产品制造企业改造仓库管理系统，库存周转率提高50%，空间利用率提升40%。</p>
+                        <div class="case-meta">
+                            <span>电子行业</span>
+                            <span>2021年</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image">
+                        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="物流中心自动化升级">
+                    </div>
+                    <div class="case-content">
+                        <h4>物流中心自动化升级</h4>
+                        <p>为某物流中心提供全面的自动化升级解决方案，分拣效率提高60%，错误率降低90%。</p>
+                        <div class="case-meta">
+                            <span>物流行业</span>
+                            <span>2020年</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="186">186</div>
+                    <div class="stat-label">成功项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="96">96%</div>
+                    <div class="stat-label">客户满意度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="16">16</div>
+                    <div class="stat-label">年经验</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="72">72</div>
+                    <div class="stat-label">专业团队</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // 统计数字动画 - 从当前显示的数字开始递增至目标值，避免显示0
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        function animateStats() {
+            statNumbers.forEach(stat => {
+                // 获取当前显示的文本（可能带%符号），提取数字部分
+                let currentText = stat.textContent;
+                let currentNum = parseFloat(currentText);
+                let target = parseInt(stat.getAttribute('data-count'));
+                // 如果当前数字已经是目标值，则不需要动画
+                if (currentNum === target) return;
+                
+                const duration = 1000;
+                const step = (target - currentNum) / (duration / 16);
+                let current = currentNum;
+                const interval = setInterval(() => {
+                    current += step;
+                    if ((step > 0 && current >= target) || (step < 0 && current <= target)) {
+                        // 处理带%的情况
+                        if (stat.textContent.includes('%')) {
+                            stat.textContent = target + '%';
+                        } else {
+                            stat.textContent = target;
+                        }
+                        clearInterval(interval);
+                    } else {
+                        let displayValue = Math.floor(current);
+                        if (stat.textContent.includes('%')) {
+                            stat.textContent = displayValue + '%';
+                        } else {
+                            stat.textContent = displayValue;
+                        }
+                    }
+                }, 16);
+            });
+        }
+        
+        // 检测元素是否在视口中
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+        
+        // 滚动时检测统计区域是否可见
+        window.addEventListener('scroll', () => {
+            if (isInViewport(document.querySelector('.stats'))) {
+                animateStats();
+                // 只执行一次
+                window.removeEventListener('scroll', animateStats);
+            }
+        });
+        
+        // 表单提交
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('感谢您的留言！我们会尽快与您联系。');
+                this.reset();
+            });
+        }
+        
+        // 搜索功能
+        const searchForm = document.querySelector('.search-container');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = this.querySelector('.search-input').value;
+                if (searchTerm.trim()) {
+                    alert(`您正在搜索: ${searchTerm}。在实际应用中，这将触发搜索功能。`);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

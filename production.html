@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>智造工坊 | 工业工程生产流程优化</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'PingFang SC', Roboto, sans-serif; background: #f7f9fc; color: #1e2a3e; scroll-behavior: smooth; }
+        header { background: #ffffff; color: #3b4b5e; padding: 14px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02); border-bottom: 1px solid #eef2f6; }
+        .header-content { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 32px; }
+        .logo { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.3px; color: #5c6bc0; }
+        .logo span { font-weight: 300; font-size: 0.9rem; color: #7c8bcb; }
+        nav ul { display: flex; gap: 2rem; list-style: none; }
+        nav ul li a { color: #5a6a7a; text-decoration: none; font-weight: 500; font-size: 1.05rem; transition: 0.2s ease; padding: 6px 0; border-bottom: 2px solid transparent; }
+        nav ul li a:hover { color: #3f51b5; border-bottom-color: #cfd8f0; }
+        main { max-width: 1300px; margin: 0 auto; padding: 2rem 28px 3.5rem; }
+        .card-panel { background: #ffffff; border-radius: 1.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); padding: 2rem 1.8rem; margin-bottom: 2.5rem; border: 1px solid #eef2f8; }
+        .section-title { font-size: 2rem; font-weight: 700; color: #3f51b5; margin-bottom: 1.6rem; border-left: none; }
+        .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 2rem; margin-top: 0.5rem; }
+        .modern-card { background: #ffffff; border-radius: 1.5rem; padding: 1.7rem; transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); border: 1px solid #eef2f8; }
+        .modern-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0, 0, 0, 0.04); border-color: #e0e7f0; }
+        .tool-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 12px; color: #3f51b5; }
+        .tool-title i { color: #5c6bc0; background: #eef2fe; padding: 10px; border-radius: 30px; font-size: 1.3rem; }
+        .tool-description { color: #5a6b78; line-height: 1.45; margin: 0.8rem 0 1.3rem; font-size: 0.95rem; }
+        .btn { background: #5c6bc0; color: white; border: none; padding: 10px 22px; border-radius: 40px; font-weight: 500; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02); }
+        .btn-outline { background: transparent; border: 1px solid #5c6bc0; color: #5c6bc0; }
+        .btn-outline:hover { background: #f0f3ff; color: #3f51b5; border-color: #3f51b5; }
+        .btn:hover { background: #3f51b5; transform: scale(1.02); box-shadow: 0 6px 12px rgba(63, 81, 181, 0.12); }
+        .methodology-area { margin-top: 2rem; }
+        .methodology-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8rem; margin-top: 1rem; }
+        .method-card { background: #ffffff; border-radius: 1.5rem; padding: 1.6rem; border-left: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); border: 1px solid #eef2f8; }
+        .method-card h3 { font-size: 1.45rem; margin-bottom: 0.8rem; color: #4c5eb5; }
+        .method-card ul, .method-card p { font-size: 0.92rem; line-height: 1.5; color: #5e6f7e; }
+        .method-card li { margin-left: 1.2rem; margin-bottom: 0.4rem; }
+        .services-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+        .service-item { flex: 1; min-width: 220px; background: #ffffff; border-radius: 1.5rem; padding: 1.8rem 1.4rem; text-align: center; transition: 0.2s; border: 1px solid #eef2f8; }
+        .service-item i { background: #eef2fe; padding: 14px; border-radius: 60px; margin-bottom: 12px; color: #5c6bc0; }
+        .service-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 40, 50, 0.2); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 2000; }
+        .modal-content { background: #ffffff; max-width: 540px; width: 90%; border-radius: 1.5rem; padding: 2rem; position: relative; animation: softPop 0.2s ease; border: 1px solid #eef2f8; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.05); }
+        @keyframes softPop { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-modal { position: absolute; right: 1.4rem; top: 1rem; font-size: 1.6rem; cursor: pointer; color: #9aaec0; }
+        .close-modal:hover { color: #5c6bc0; }
+        footer { background: #fafbfd; color: #8d9aab; text-align: center; padding: 1.6rem; margin-top: 1rem; font-size: 0.85rem; border-top: 1px solid #eef2f6; }
+        @media (max-width: 780px) { .header-content { flex-direction: column; gap: 12px; } nav ul { gap: 1.2rem; flex-wrap: wrap; justify-content: center; } .methodology-grid { grid-template-columns: 1fr; } .section-title { font-size: 1.7rem; } }
+        .scroll-margin { scroll-margin-top: 95px; }
+        input, textarea { background: #f9fbfd; border: 1px solid #e2e8f0; border-radius: 60px; padding: 10px 18px; font-family: inherit; }
+        textarea { border-radius: 28px; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <div class="logo">智造工坊 <span>IE · 精益智造</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="#tools" class="nav-link">工具</a></li>
+                <li><a href="#resources" class="nav-link">资源</a></li>
+                <li><a href="#services" class="nav-link">服务</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="home" class="card-panel scroll-margin">
+        <h1 class="section-title">📈 工业工程 · 生产流程优化</h1>
+        <p style="font-size: 1.2rem; max-width: 85%; color: #4f6b8a; font-weight: 500;">融合精益工具与数字化诊断，提升OEE，降低制造成本。从瓶颈分析到价值流改善，轻松落地。</p>
+        <div style="margin-top: 28px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <button class="btn" id="quickToolBtn"><i class="fas fa-chart-line"></i> 探索瓶颈工具</button>
+            <button class="btn btn-outline" id="quickMethodBtn"><i class="fas fa-book-open"></i> 学习精益方法论</button>
+        </div>
+    </section>
+
+    <section id="tools" class="card-panel scroll-margin">
+        <h2 class="section-title"><i class="fas fa-tools"></i> 智能优化工具箱</h2>
+        <div class="tool-grid">
+            <div class="modern-card">
+                <div class="tool-title"><i class="fas fa-project-diagram"></i> 工艺流程图绘制</div>
+                <p class="tool-description">VSM价值流图 & 工艺流程图，宏观展示生产全貌，支持工序细节分析。</p>
+                <button class="btn" id="flowchartBtn"><i class="fas fa-external-link-alt"></i> 前往 Draw.io 绘图</button>
+            </div>
+            <div class="modern-card">
+                <div class="tool-title"><i class="fas fa-video"></i> 视频工时测量</div>
+                <p class="tool-description">AI辅助工时分析，自动识别无效动作，助力工时标准化。</p>
+                <button class="btn" id="timeMeasureBtn"><i class="fas fa-stopwatch"></i> 开启智能分析</button>
+            </div>
+            <div class="modern-card">
+                <div class="tool-title"><i class="fas fa-chart-simple"></i> 瓶颈自动识别</div>
+                <p class="tool-description">基于工位节拍数据快速定位瓶颈工序，提供改善建议。</p>
+                <button class="btn" id="bottleneckBtn"><i class="fas fa-microchip"></i> 识别瓶颈</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="resources" class="card-panel scroll-margin">
+        <h2 class="section-title"><i class="fas fa-database"></i> 精益资源库</h2>
+        <div class="tool-grid">
+            <div class="modern-card">
+                <div class="tool-title"><i class="fas fa-folder-open"></i> 案例库</div>
+                <p class="tool-description">多行业成功改善案例：汽车、电子、医疗。量化收益与实施细节。</p>
+                <button class="btn" id="caseStudyBtn"><i class="fas fa-search"></i> 浏览案例库</button>
+            </div>
+            <div class="modern-card">
+                <div class="tool-title"><i class="fas fa-chalkboard-user"></i> 方法论库</div>
+                <p class="tool-description">工业工程核心理论: 精益生产、六西格玛、设施规划、工作研究等。</p>
+                <button class="btn" id="methodologyToggleBtn"><i class="fas fa-graduation-cap"></i> 展开方法论</button>
+            </div>
+        </div>
+        <div id="methodologyDetail" style="display: none; margin-top: 30px;">
+            <div class="methodology-grid">
+                <div class="method-card"><h3>📌 1. 生产计划与控制</h3><p><strong>MPS/MRP/CRP</strong> 综合计划，JIT与看板拉动。丰田案例降低30%在制品。</p><ul><li>主生产计划 & 能力需求计划</li><li>约束理论(TOC) 识别瓶颈</li><li>ERP + APS高级排程</li></ul></div>
+                <div class="method-card"><h3>🏭 2. 设施规划与设计</h3><p>SLP系统布局，AGV仿真优化，物流分析。亚马逊智能仓效率提升2.5倍。</p><ul><li>工艺/产品原则布局</li><li>物料搬运系统设计</li><li>FlexSim数字孪生</li></ul></div>
+                <div class="method-card"><h3>⏱️ 3. 工作研究 (方法+时间)</h3><p>动作经济原则，MTM预定时间标准，秒表测时。富士康UPPH提升35%。</p><ul><li>吉尔布雷斯动素分析</li><li>标准工时库建设</li><li>学习曲线预测</li></ul></div>
+                <div class="method-card"><h3>🎯 4. 质量管理 & 六西格玛</h3><p>SPC控制图，过程能力Cpk，DMAIC改进。摩托罗拉缺陷率由15%降至0.3%。</p><ul><li>PDCA / 8D报告</li><li>FMEA & QFD</li><li>六西格玛绿带项目</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="card-panel scroll-margin">
+        <h2 class="section-title"><i class="fas fa-hand-peace"></i> 精益专项服务</h2>
+        <div class="services-grid">
+            <div class="service-item"><i class="fas fa-chalkboard-user" style="font-size: 2rem;"></i><h3>精益咨询</h3><p>现场诊断·VSM价值流·Kaizen改善周</p></div>
+            <div class="service-item"><i class="fas fa-chart-line" style="font-size: 2rem;"></i><h3>数字化看板</h3><p>OEE实时监控·Andon异常响应·BI分析</p></div>
+            <div class="service-item"><i class="fas fa-people-arrows" style="font-size: 2rem;"></i><h3>IE技能培训</h3><p>MTM工时定额·产线平衡·改善工作坊</p></div>
+        </div>
+    </section>
+</main>
+
+<footer><p>© 2025 智造工坊 · 工业工程生产流程优化 | 蓝白灵动 · 智造升级</p></footer>
+
+<div id="globalModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <div id="modalBodyContent"></div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('globalModal');
+    const modalBody = document.getElementById('modalBodyContent');
+    document.getElementById('closeModalBtn').addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+    function openModal(html) { modalBody.innerHTML = html; modal.style.display = 'flex'; }
+
+    document.getElementById('flowchartBtn').addEventListener('click', () => window.open('https://app.diagrams.net/', '_blank'));
+
+    document.getElementById('timeMeasureBtn').addEventListener('click', () => {
+        openModal(`<h3 style="color:#3f51b5;"><i class="fas fa-video"></i> 📹 视频工时分析 (演示)</h3><p>模拟基于智能视觉的工时测算与动作优化建议</p><div style="background:#f5f7ff; padding: 1rem; border-radius: 1.4rem; margin: 1rem 0;"><p>📊 <strong>实测数据</strong> : 周期 43.2秒 | 增值动作占比 69% | 浪费动作 31%</p><p>💡 <strong>改善建议</strong> : 工作站物料前置化，应用动作经济原则，预计缩短 5.7秒/件</p><p>🎯 推荐标准工时: 目标 39.8 秒 (宽放率12%)</p><button class="btn" id="closeModalInner" style="margin-top: 12px;">关闭</button></div>`);
+        document.getElementById('closeModalInner').addEventListener('click', () => modal.style.display = 'none');
+    });
+
+    document.getElementById('bottleneckBtn').addEventListener('click', () => {
+        openModal(`<h3><i class="fas fa-chart-simple"></i> 🔍 瓶颈诊断引擎</h3><p>输入各工位节拍(秒)，快速定位瓶颈工序</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin: 16px 0;">
+            <label>工位A (冲压): <input type="number" id="stationA" value="37" step="1" style="width:110px;"></label>
+            <label>工位B (焊接): <input type="number" id="stationB" value="53" step="1" style="width:110px;"></label>
+            <label>工位C (装配): <input type="number" id="stationC" value="49" step="1" style="width:110px;"></label>
+            <label>工位D (测试): <input type="number" id="stationD" value="44" step="1" style="width:110px;"></label>
+            <button class="btn" id="calcBottleneckBtn">📉 立即识别</button>
+        </div>
+        <div id="bottleneckResult" style="background:#f5f7ff; border-radius: 1.4rem; padding: 14px;"></div>`);
+        function updateBottleneck() {
+            const times = { '冲压': +document.getElementById('stationA').value, '焊接': +document.getElementById('stationB').value, '装配': +document.getElementById('stationC').value, '测试': +document.getElementById('stationD').value };
+            let maxTime = -1, bottleneck = '';
+            for (let [n, t] of Object.entries(times)) { if (t > maxTime) { maxTime = t; bottleneck = n; } }
+            document.getElementById('bottleneckResult').innerHTML = `<strong>🏆 诊断结果：</strong> 瓶颈工位：${bottleneck} (${maxTime}秒/件)<br>✨ 优化瓶颈后整体产出预计提升 ${Math.round((maxTime - Math.min(...Object.values(times)))/maxTime*100)}% 。`;
+        }
+        document.getElementById('calcBottleneckBtn').addEventListener('click', updateBottleneck);
+        updateBottleneck();
+    });
+
+    document.getElementById('caseStudyBtn').addEventListener('click', () => {
+        openModal(`<h3><i class="fas fa-folder-open"></i> 📖 精益成功案例集</h3><ul style="margin-top:1.2rem; line-height:1.65;"><li><strong>🏎️ 汽车零部件产线</strong> — VSM价值流改善+SMED，换模时间降42%，库存降57%</li><li><strong>📱 3C电子组装线</strong> — 动作经济+自动化，UPPH提升28%，年节省820万元</li><li><strong>⚙️ 重工机械加工</strong> — TPM+瓶颈改善，OEE从58%提升至84%</li><li><strong>🏥 医院中央配送</strong> — 设施规划与路径优化，物流距离缩减34%</li><li><strong>🧪 医药包装线</strong> — 六西格玛DMAIC项目，缺陷率降低76%</li></ul><button class="btn" id="closeModalInnerCase" style="margin-top:20px;">关闭窗口</button>`);
+        document.getElementById('closeModalInnerCase').addEventListener('click', () => modal.style.display = 'none');
+    });
+
+    const methodToggle = document.getElementById('methodologyToggleBtn');
+    const methodDetail = document.getElementById('methodologyDetail');
+    methodToggle.addEventListener('click', () => {
+        if (methodDetail.style.display === 'none' || getComputedStyle(methodDetail).display === 'none') {
+            methodDetail.style.display = 'block';
+            methodToggle.innerHTML = '<i class="fas fa-compress-alt"></i> 收起方法论';
+            methodDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            methodDetail.style.display = 'none';
+            methodToggle.innerHTML = '<i class="fas fa-graduation-cap"></i> 展开方法论';
+        }
+    });
+    methodDetail.style.display = 'none';
+
+    document.getElementById('quickToolBtn')?.addEventListener('click', () => document.getElementById('tools').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('quickMethodBtn')?.addEventListener('click', () => {
+        document.getElementById('resources').scrollIntoView({ behavior: 'smooth' });
+        if (methodDetail.style.display !== 'block') { methodDetail.style.display = 'block'; methodToggle.innerHTML = '<i class="fas fa-compress-alt"></i> 收起方法论'; }
+    });
+
+    document.querySelectorAll('.nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById(this.getAttribute('href').substring(1)).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+</body>
+</html>

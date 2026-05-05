@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工业机器人 - 让智造更简单</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        body { color: #4A4A4A; line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        :root { --primary-blue: #0056b3; --secondary-blue: #0077cc; --highlight-orange: #ff6b35; --neutral-gray: #4A4A4A; --light-gray: #f8f9fa; --white: #ffffff; --aurora-purple: #7457c0; --dark-blue: #003d7a; --accent-blue: #1a8cff; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .section { padding: 70px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; color: var(--primary-blue); margin-bottom: 10px; font-weight: 600; }
+        .section-title p { font-size: 18px; color: var(--neutral-gray); max-width: 700px; margin: 0 auto; }
+        .section-title .underline { height: 4px; width: 80px; background: linear-gradient(to right, var(--primary-blue), var(--aurora-purple)); margin: 15px auto; border-radius: 2px; }
+        header { background-color: var(--primary-blue); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        header.scrolled { background-color: rgba(0, 90, 180, 0.95); padding: 10px 0; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; }
+        .logo-text h1 { color: white; font-size: 24px; }
+        .logo-text p { font-size: 12px; background: linear-gradient(135deg, #fff, var(--aurora-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 40px; position: relative; }
+        nav ul li a { color: white; font-weight: 500; transition: 0.3s; }
+        nav ul li a:hover { color: var(--aurora-purple); }
+        nav ul li.has-dropdown .submenu {
+            position: absolute; top: 100%; left: 0; background: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-radius: 12px; padding: 8px 0; min-width: 220px;
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: 0.3s; z-index: 100; display: flex; flex-direction: column;
+        }
+        nav ul li.has-dropdown:hover .submenu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        nav ul li.has-dropdown .submenu li { margin: 0; }
+        nav ul li.has-dropdown .submenu li a {
+            color: #333; padding: 12px 20px; display: flex; align-items: center;
+            gap: 10px; transition: all 0.2s; border-left: 3px solid transparent; font-size: 15px;
+        }
+        nav ul li.has-dropdown .submenu li a i { width: 20px; color: var(--primary-blue); font-size: 16px; }
+        nav ul li.has-dropdown .submenu li a:hover {
+            background: #f5f7ff; color: var(--primary-blue);
+            border-left-color: var(--aurora-purple); padding-left: 24px;
+        }
+        @media (max-width: 992px) {
+            nav ul li.has-dropdown .submenu {
+                position: static; opacity: 1; visibility: visible; transform: none;
+                display: none; box-shadow: none; background: rgba(255,255,255,0.08);
+                border-radius: 0; padding: 5px 0; margin-top: 5px;
+            }
+            nav ul li.has-dropdown .submenu.show-mobile { display: flex; }
+            nav ul li.has-dropdown .submenu li a { color: #fff; border-left-color: transparent; padding: 10px 25px; }
+            nav ul li.has-dropdown .submenu li a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        }
+        .header-right { display: flex; gap: 20px; align-items: center; }
+        .search-box input { padding: 6px 12px; border-radius: 20px; border: none; outline: none; width: 160px; }
+        .language-selector a { color: white; font-weight: 500; cursor: pointer; }
+        .mobile-menu-btn { display: none; font-size: 24px; color: white; cursor: pointer; }
+        .banner { height: 100vh; position: relative; overflow: hidden; }
+        .banner video { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .banner-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 45, 80, 0.55); z-index: 1; }
+        .banner-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 100%; z-index: 2; }
+        .banner-slogan h2 { font-size: 60px; font-weight: bold; margin-bottom: 10px; }
+        .banner-slogan h2:last-child { color: var(--aurora-purple); }
+        .banner-icons { display: flex; justify-content: center; gap: 30px; margin: 30px 0; }
+        .banner-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; transition: 0.3s; }
+        .banner-btn { display: inline-block; background: linear-gradient(135deg, var(--primary-blue), var(--aurora-purple)); color: white; padding: 12px 30px; border-radius: 40px; font-weight: bold; transition: 0.3s; cursor: pointer; border: none; }
+        .about-content { display: flex; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.05); }
+        .about-text { flex: 1; padding: 40px; }
+        .about-text p { text-indent: 2em; text-align: justify; margin-bottom: 15px; }
+        .about-image { flex: 1; background: #eef2f7; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .products-container { display: flex; flex-wrap: wrap; gap: 30px; }
+        .product-card { flex: 1; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-8px); }
+        .product-image { height: 220px; position: relative; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-model { position: absolute; top: 15px; left: 15px; background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; }
+        .product-content { padding: 20px; }
+        .product-features { list-style: none; margin: 15px 0; }
+        .product-features li { padding-left: 20px; position: relative; margin-bottom: 6px; }
+        .product-features li::before { content: "•"; color: var(--aurora-purple); position: absolute; left: 0; }
+        .product-applications { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .product-applications span { background: rgba(116,87,191,0.1); padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        .video-section { background: var(--primary-blue); color: white; }
+        .video-container { display: flex; flex-wrap: wrap; gap: 30px; }
+        .video-card { flex: 1; background: rgba(0,0,0,0.2); border-radius: 16px; overflow: hidden; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; }
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .video-title { text-align: center; padding: 12px; font-weight: bold; }
+        .testimonials-container { display: flex; flex-wrap: wrap; gap: 30px; }
+        .testimonial-card { flex: 1; background: white; border-radius: 12px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .partners-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 50px; margin-top: 30px; }
+        .partner-logo { width: 150px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; filter: grayscale(30%); opacity: 0.8; transition: all 0.3s; border-radius: 12px; background: rgba(0,0,0,0.02); }
+        .partner-logo:hover { filter: grayscale(0%); opacity: 1; transform: translateY(-5px); background: rgba(116,87,191,0.05); }
+        .partner-logo i { font-size: 40px; color: var(--primary-blue); margin-bottom: 10px; }
+        .partner-logo span { font-size: 16px; font-weight: 500; color: var(--neutral-gray); }
+        .applications-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between; }
+        .application-card { flex: 1; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; }
+        .application-card:hover { transform: translateY(-5px); }
+        .application-image { height: 250px; overflow: hidden; }
+        .application-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .application-card:hover .application-image img { transform: scale(1.05); }
+        .application-content { padding: 25px; }
+        .application-title { font-size: 24px; color: var(--primary-blue); margin-bottom: 15px; font-weight: 600; }
+        .application-description { margin-bottom: 20px; }
+        .application-industries, .application-advantages { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .industry-tag, .advantage-tag { background: rgba(116, 87, 191, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+        .services-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+        .service-card {
+            flex: 1; min-width: 280px; background: white; border-radius: 12px;
+            padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; text-align: center;
+            display: block; text-decoration: none; color: inherit;
+        }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-icon { font-size: 48px; color: var(--primary-blue); margin-bottom: 20px; }
+        .service-card h3 { font-size: 24px; color: var(--primary-blue); margin-bottom: 15px; }
+        .service-card p { color: var(--neutral-gray); line-height: 1.6; }
+        footer { background: var(--dark-blue); color: #ccc; padding: 50px 0 20px; }
+        .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .footer-column { flex: 1; min-width: 180px; margin-bottom: 30px; }
+        .footer-column h3 { color: white; margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+        .footer-column h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 2px; background: var(--accent-blue); }
+        .footer-column ul li { list-style: none; margin-bottom: 12px; }
+        .footer-column ul li a:hover { color: var(--aurora-purple); }
+        .footer-contact p { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; }
+        .chat-button { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-blue), var(--aurora-purple)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; cursor: pointer; z-index: 999; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .chat-form { position: fixed; bottom: 100px; right: 30px; width: 350px; background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; z-index: 998; }
+        .chat-form.active { display: block; }
+        @media (max-width: 992px) {
+            nav { display: none; width: 100%; order: 3; margin-top: 15px; }
+            nav.active { display: block; }
+            nav ul { flex-direction: column; }
+            nav ul li { margin-left: 0; margin-bottom: 10px; }
+            .mobile-menu-btn { display: block; }
+            .header-right { margin-left: auto; }
+            .about-content { flex-direction: column; }
+            .product-card { flex: auto; width: 100%; }
+            .partner-logo { width: 120px; }
+        }
+        @media (max-width: 768px) {
+            .banner-slogan h2 { font-size: 32px; }
+            .section-title h2 { font-size: 28px; }
+            .chat-form { width: calc(100% - 40px); right: 20px; }
+            .partners-container { gap: 20px; }
+            .partner-logo { width: 100px; padding: 10px; }
+            .applications-container { flex-direction: column; }
+            .services-container { flex-direction: column; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<header id="header">
+    <div class="container header-container">
+        <div class="logo-text"><h1 data-i18n="logo_title">工业机器人</h1><p data-i18n="logo_sub">让智造更简单</p></div>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#" data-i18n="nav_home">首页</a></li>
+                <li><a href="#products" data-i18n="nav_products">产品</a></li>
+                <li><a href="#applications" data-i18n="nav_cases">案例</a></li>
+                <li class="has-dropdown">
+                    <a href="#services" data-i18n="nav_services">服务</a>
+                    <ul class="submenu">
+                        <li><a href="production.html"><i class="fas fa-chart-line"></i><span data-i18n="service1">生产流程优化</span></a></li>
+                        <li><a href="inventory.html"><i class="fas fa-boxes"></i><span data-i18n="service2">库存管理</span></a></li>
+                        <li><a href="logistics.html"><i class="fas fa-truck-moving"></i><span data-i18n="service3">物料搬运</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="#about" data-i18n="nav_about">关于</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="search-box"><input type="text" data-i18n-placeholder="search_placeholder" placeholder="请输入关键词"></div>
+            <div class="language-selector"><a id="langSwitch">English</a></div>
+        </div>
+        <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+    </div>
+</header>
+
+<section class="banner">
+    <video autoplay loop muted playsinline>
+        <source src="videos/demo.mp4.mp4" type="video/mp4">
+        您的浏览器不支持视频标签。
+    </video>
+    <div class="banner-overlay"></div>
+    <div class="container banner-content">
+        <div class="banner-slogan"><h2 data-i18n="banner1">MAKING SMART</h2><h2 data-i18n="banner2">MORE SIMPLE</h2></div>
+        <div class="banner-icons"><div class="banner-icon"><i class="fas fa-cog"></i></div><div class="banner-icon"><i class="fas fa-robot"></i></div><div class="banner-icon"><i class="fas fa-microchip"></i></div></div>
+        <a href="#products" class="banner-btn" data-i18n="banner_btn">了解详情</a>
+    </div>
+</section>
+
+<section class="section services-section" id="services">
+    <div class="container">
+        <div class="section-title"><h2 data-i18n="services_title">我们的服务</h2><p data-i18n="services_sub">OUR SERVICES</p><div class="underline"></div></div>
+        <div class="services-container">
+            <a href="production.html" class="service-card" id="service-optimization">
+                <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                <h3 data-i18n="service1">生产流程优化</h3>
+                <p data-i18n="service1_desc">通过机器人与MES系统集成，实现生产节拍平衡、瓶颈工序自动化改造，帮助客户提升整体设备效率（OEE）20%以上。</p>
+            </a>
+            <a href="inventory.html" class="service-card" id="service-inventory">
+                <div class="service-icon"><i class="fas fa-boxes"></i></div>
+                <h3 data-i18n="service2">库存管理</h3>
+                <p data-i18n="service2_desc">智能立体仓库搭配AGV与机器人拣选系统，实现物料自动入库、出库和盘点，降低库存成本，提高周转率。</p>
+            </a>
+            <a href="logistics.html" class="service-card" id="service-material">
+                <div class="service-icon"><i class="fas fa-truck-moving"></i></div>
+                <h3 data-i18n="service3">物料搬运</h3>
+                <p data-i18n="service3_desc">重载AGV与协作机器人联合解决方案，实现自动化上下料、跨车间运输，减少人工搬运，提高生产安全性。</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section about-section" id="about">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <p data-i18n="about_p1">工业机器人是集机械、电子、控制、计算机、传感器等多学科先进技术于一体的自动化设备，能够按照预设程序和指令完成各种复杂的生产任务。它在工业工程中发挥着至关重要的作用，不仅能够提高生产效率、降低劳动强度，还能确保产品质量的稳定性和一致性。在现代制造业中，工业机器人正逐步成为不可或缺的核心装备。</p>
+                <p style="margin-top:15px" data-i18n="about_p2">近年来，随着人工智能、大数据和物联网等先进技术的不断融合，工业机器人的发展迎来了新的机遇。它正朝着智能化、柔性化和协同化的方向迈进，展现出前所未有的发展潜力和应用前景。在新能源汽车、光伏产业等新兴领域，工业机器人通过数字孪生与虚拟调试、多机协同与AGV融合等技术，实现了产线的快速换型和多品种混流生产，大幅提升了制造企业的市场竞争力。</p>
+                <p style="margin-top:15px" data-i18n="about_p3">我们的工业机器人产品融合了尖端科技与精湛工艺，具备高精度、高可靠性、高适应性等特点。无论是复杂的装配任务，还是高精度的焊接作业，亦或是高速分拣与搬运，它们都能以卓越的性能和稳定性满足不同行业的需求，为客户带来显著的经济效益和竞争力提升。</p>
+            </div>
+            <div class="about-image"><img src="videos/df37d9697a9d23a4820a46c1ad46349.jpg" alt="工业机器人"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section products-section" id="products">
+    <div class="container">
+        <div class="section-title"><h2 data-i18n="pro_title">产品展示</h2><p data-i18n="pro_sub">PRODUCT DISPLAY</p><div class="underline"></div></div>
+        <div class="products-container">
+            <div class="product-card"><div class="product-image"><span class="product-model">QJR65-1</span><img src="videos/38bac45b76e9fb6cf57b18a8f9a9dd5.png" alt="紧凑型工业机器人"></div><div class="product-content"><h3 class="product-title" data-i18n="pro1_name">紧凑型工业机器人</h3><ul class="product-features"><li data-i18n="pro1_f1">紧凑机身设计，节省空间</li><li data-i18n="pro1_f2">大工作范围，灵活操作</li><li data-i18n="pro1_f3">高精度定位，±0.02mm</li></ul><div class="product-applications"><span data-i18n="app1_1">装配</span><span data-i18n="app1_2">分拣</span><span data-i18n="app1_3">检测</span></div><a href="#" class="banner-btn" style="display:inline-block; margin-top:15px; padding:8px 15px; font-size:14px;" data-i18n="detail_btn">查看详情</a></div></div>
+            <div class="product-card"><div class="product-image"><span class="product-model">QJRH4-1</span><img src="videos/bfa1110153775976147799acf4a1493.png" alt="六轴多功能机器人"></div><div class="product-content"><h3 class="product-title" data-i18n="pro2_name">六轴多功能机器人</h3><ul class="product-features"><li data-i18n="pro2_f1">灵活六轴设计，广泛适应性</li><li data-i18n="pro2_f2">高负载能力，最大20kg</li><li data-i18n="pro2_f3">IP67防护等级，恶劣环境适用</li></ul><div class="product-applications"><span data-i18n="app2_1">焊接</span><span data-i18n="app2_2">上下料</span><span data-i18n="app2_3">喷涂</span></div><a href="#" class="banner-btn" style="display:inline-block; margin-top:15px; padding:8px 15px; font-size:14px;" data-i18n="detail_btn">查看详情</a></div></div>
+            <div class="product-card"><div class="product-image"><span class="product-model">QJR6-1</span><img src="videos/fdfa78b0c8f4e9c0e43a024d01a1c66.png" alt="大型工业机器人"></div><div class="product-content"><h3 class="product-title" data-i18n="pro3_name">大型工业机器人</h3><ul class="product-features"><li data-i18n="pro3_f1">超大工作空间，半径3.5m</li><li data-i18n="pro3_f2">高精度重复定位</li><li data-i18n="pro3_f3">多行业适配解决方案</li></ul><div class="product-applications"><span data-i18n="app3_1">搬运</span><span data-i18n="app3_2">抛光</span><span data-i18n="app3_3">码垛</span></div><a href="#" class="banner-btn" style="display:inline-block; margin-top:15px; padding:8px 15px; font-size:14px;" data-i18n="detail_btn">查看详情</a></div></div>
+        </div>
+        <div style="text-align:center; margin-top:30px;"><a href="#" class="banner-btn" data-i18n="all_products">浏览全部产品</a></div>
+    </div>
+</section>
+
+<section class="section video-section" id="innovation">
+    <div class="container">
+        <div class="section-title"><h2 style="color:white;" data-i18n="video_title">视频展示</h2><p style="color:rgba(255,255,255,0.8);" data-i18n="video_sub">VIDEO SHOWCASE</p><div class="underline" style="background:linear-gradient(to right, white, var(--aurora-purple));"></div></div>
+        <div class="video-container">
+            <div class="video-card"><div class="video-wrapper"><video autoplay loop muted playsinline><source src="videos/demoo.mp4.mp4" type="video/mp4">您的浏览器不支持视频标签。</video></div><div class="video-title" data-i18n="video1_title">QJR65-1 装配线应用实景</div></div>
+            <div class="video-card"><div class="video-wrapper"><video autoplay loop muted playsinline><source src="videos/demooo.MP4.mp4" type="video/mp4">您的浏览器不支持视频标签。</video></div><div class="video-title" data-i18n="video2_title">QJRH4-1 焊接工艺展示</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section testimonials-section" id="testimonials">
+    <div class="container"><div class="section-title"><h2 data-i18n="testi_title">客户评价</h2><p data-i18n="testi_sub">TESTIMONIALS</p><div class="underline"></div></div>
+    <div class="testimonials-container">
+        <div class="testimonial-card"><div class="testimonial-content" data-i18n="testi1_text">“旺虹机器人的QJR65-1系列彻底改变了我们的生产线效率，操作简单，维护成本低，生产效率提升了40%。”<div class="testimonial-author"><div class="author-avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" style="width:50px;height:50px;border-radius:50%;"></div><div><h4 data-i18n="testi1_name">张经理</h4><p data-i18n="testi1_company">某汽车零部件制造公司</p></div></div></div></div>
+        <div class="testimonial-card"><div class="testimonial-content" data-i18n="testi2_text">“我们使用了QJRH4-1进行精密焊接，产品质量一致性大幅提高，售后服务响应迅速，非常专业。”<div class="testimonial-author"><div class="author-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" style="width:50px;height:50px;border-radius:50%;"></div><div><h4 data-i18n="testi2_name">李总监</h4><p data-i18n="testi2_company">某电子设备制造企业</p></div></div></div></div>
+        <div class="testimonial-card"><div class="testimonial-content" data-i18n="testi3_text">“从传统人工到旺虹机器人自动化解决方案的转型非常顺利，他们的技术支持团队提供了全方位的培训和服务。”<div class="testimonial-author"><div class="author-avatar"><img src="https://randomuser.me/api/portraits/men/75.jpg" style="width:50px;height:50px;border-radius:50%;"></div><div><h4 data-i18n="testi3_name">王总</h4><p data-i18n="testi3_company">某金属加工厂</p></div></div></div></div>
+    </div></div>
+</section>
+
+<section class="section partners-section" id="partners">
+    <div class="container">
+        <div class="section-title"><h2 data-i18n="partner_title">合作伙伴</h2><p data-i18n="partner_sub">OUR PARTNERS</p><div class="underline"></div></div>
+        <div class="partners-container">
+            <div class="partner-logo"><i class="fas fa-microchip"></i><span data-i18n="partner_abb">ABB</span></div>
+            <div class="partner-logo"><i class="fas fa-robot"></i><span data-i18n="partner_fanuc">FANUC</span></div>
+            <div class="partner-logo"><i class="fas fa-cogs"></i><span data-i18n="partner_kuka">KUKA</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section applications-section" id="applications">
+    <div class="container">
+        <div class="section-title"><h2 data-i18n="case_title">应用案例</h2><p data-i18n="case_sub">APPLICATIONS</p><div class="underline"></div></div>
+        <div class="applications-container">
+            <div class="application-card"><div class="application-image"><img src="videos/81baaaf26302b04ee779004e7fdbb58.png" alt="机器人抛光打磨应用"></div><div class="application-content"><h3 class="application-title" data-i18n="case1_title">机器人抛光打磨应用</h3><p class="application-description" data-i18n="case1_desc">我们的机器人在复杂曲面处理中展现出卓越的自动化优势，能够精确控制抛光力度和路径，确保产品表面质量一致性。</p><div class="application-industries"><div class="industry-tag"><i class="fas fa-car"></i> <span data-i18n="industry1">汽车制造</span></div><div class="industry-tag"><i class="fas fa-plane"></i> <span data-i18n="industry2">航空航天</span></div></div><div class="application-advantages"><span class="advantage-tag" data-i18n="adv1">高一致性</span><span class="advantage-tag" data-i18n="adv2">效率提升300%</span></div></div></div>
+            <div class="application-card"><div class="application-image"><img src="videos/38bac45b76e9fb6cf57b18a8f9a9dd5.png" alt="金属行业焊接应用"></div><div class="application-content"><h3 class="application-title" data-i18n="case2_title">金属行业焊接应用</h3><p class="application-description" data-i18n="case2_desc">自动化焊接解决方案实现多工艺自动化，确保焊缝质量一致性，大幅提高生产效率和产品良率。</p><div class="application-industries"><div class="industry-tag"><i class="fas fa-industry"></i> <span data-i18n="industry3">金属加工</span></div><div class="industry-tag"><i class="fas fa-car"></i> <span data-i18n="industry1">汽车制造</span></div></div><div class="application-advantages"><span class="advantage-tag" data-i18n="adv3">多工艺自动化</span><span class="advantage-tag" data-i18n="adv4">高质量一致性</span></div></div></div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container footer-container">
+        <div class="footer-column"><h3 data-i18n="footer_about">关于我们</h3><ul><li><a href="#" data-i18n="footer_about1">公司简介</a></li><li><a href="#" data-i18n="footer_about2">发展历程</a></li><li><a href="#" data-i18n="footer_about3">企业文化</a></li></ul></div>
+        <div class="footer-column"><h3 data-i18n="footer_product">产品中心</h3><ul><li><a href="#" data-i18n="footer_product1">工业机器人</a></li><li><a href="#" data-i18n="footer_product2">服务机器人</a></li><li><a href="#" data-i18n="footer_product3">解决方案</a></li></ul></div>
+        <div class="footer-column"><h3 data-i18n="footer_news">新闻中心</h3><ul><li><a href="#" data-i18n="footer_news1">公司新闻</a></li><li><a href="#" data-i18n="footer_news2">行业动态</a></li><li><a href="#" data-i18n="footer_news3">媒体报道</a></li></ul></div>
+        <div class="footer-column footer-contact"><h3 data-i18n="footer_contact">联系我们</h3><p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer_address">浙江省杭州市余杭区未来科技城</span></p><p><i class="fas fa-phone"></i> 400-888-8888</p><p><i class="fas fa-envelope"></i> info@wanghongrobot.com</p></div>
+    </div>
+    <div class="container footer-bottom"><p data-i18n="copyright">© 2023 旺虹机器人有限公司 版权所有 | 浙ICP备12345678号</p></div>
+</footer>
+
+<div class="chat-button" id="chat-button"><i class="fas fa-comments"></i></div>
+<div class="chat-form" id="chat-form"><div class="chat-header"><h3 data-i18n="chat_title">在线咨询</h3><span class="close-chat" id="close-chat">&times;</span></div><form id="consultation-form"><div class="chat-input"><label data-i18n="chat_name">您的姓名</label><input type="text" id="name" required></div><div class="chat-input"><label data-i18n="chat_company">公司名称</label><input type="text" id="company"></div><div class="chat-input"><label data-i18n="chat_phone">联系电话</label><input type="tel" id="phone" required></div><div class="chat-input"><label data-i18n="chat_product">感兴趣的产品</label><select id="interest"><option>QJR65-1 紧凑型工业机器人</option><option>QJRH4-1 六轴多功能机器人</option><option>QJR6-1 大型工业机器人</option></select></div><div class="chat-input"><label data-i18n="chat_message">咨询内容</label><textarea id="message" required></textarea></div><button type="submit" class="chat-submit banner-btn" style="width:100%;" data-i18n="chat_submit">提交咨询</button></form></div>
+
+<script>
+    const translations = {
+        zh: {
+            logo_title: "工业机器人", logo_sub: "让智造更简单",
+            nav_home: "首页", nav_products: "产品", nav_cases: "案例", nav_services: "服务", nav_about: "关于",
+            service1: "生产流程优化", service2: "库存管理", service3: "物料搬运",
+            service1_desc: "通过机器人与MES系统集成，实现生产节拍平衡、瓶颈工序自动化改造，帮助客户提升整体设备效率（OEE）20%以上。",
+            service2_desc: "智能立体仓库搭配AGV与机器人拣选系统，实现物料自动入库、出库和盘点，降低库存成本，提高周转率。",
+            service3_desc: "重载AGV与协作机器人联合解决方案，实现自动化上下料、跨车间运输，减少人工搬运，提高生产安全性。",
+            services_title: "我们的服务", services_sub: "OUR SERVICES",
+            search_placeholder: "请输入关键词",
+            banner1: "MAKING SMART", banner2: "MORE SIMPLE", banner_btn: "了解详情",
+            about_p1: "工业机器人是集机械、电子、控制、计算机、传感器等多学科先进技术于一体的自动化设备，能够按照预设程序和指令完成各种复杂的生产任务。它在工业工程中发挥着至关重要的作用，不仅能够提高生产效率、降低劳动强度，还能确保产品质量的稳定性和一致性。在现代制造业中，工业机器人正逐步成为不可或缺的核心装备。",
+            about_p2: "近年来，随着人工智能、大数据和物联网等先进技术的不断融合，工业机器人的发展迎来了新的机遇。它正朝着智能化、柔性化和协同化的方向迈进，展现出前所未有的发展潜力和应用前景。在新能源汽车、光伏产业等新兴领域，工业机器人通过数字孪生与虚拟调试、多机协同与AGV融合等技术，实现了产线的快速换型和多品种混流生产，大幅提升了制造企业的市场竞争力。",
+            about_p3: "我们的工业机器人产品融合了尖端科技与精湛工艺，具备高精度、高可靠性、高适应性等特点。无论是复杂的装配任务，还是高精度的焊接作业，亦或是高速分拣与搬运，它们都能以卓越的性能和稳定性满足不同行业的需求，为客户带来显著的经济效益和竞争力提升。",
+            pro_title: "产品展示", pro_sub: "PRODUCT DISPLAY", pro1_name: "紧凑型工业机器人", pro2_name: "六轴多功能机器人", pro3_name: "大型工业机器人",
+            pro1_f1: "紧凑机身设计，节省空间", pro1_f2: "大工作范围，灵活操作", pro1_f3: "高精度定位，±0.02mm",
+            pro2_f1: "灵活六轴设计，广泛适应性", pro2_f2: "高负载能力，最大20kg", pro2_f3: "IP67防护等级，恶劣环境适用",
+            pro3_f1: "超大工作空间，半径3.5m", pro3_f2: "高精度重复定位", pro3_f3: "多行业适配解决方案",
+            app1_1: "装配", app1_2: "分拣", app1_3: "检测",
+            app2_1: "焊接", app2_2: "上下料", app2_3: "喷涂",
+            app3_1: "搬运", app3_2: "抛光", app3_3: "码垛",
+            detail_btn: "查看详情", all_products: "浏览全部产品",
+            video_title: "视频展示", video_sub: "VIDEO SHOWCASE", video1_title: "QJR65-1 装配线应用实景", video2_title: "QJRH4-1 焊接工艺展示",
+            testi_title: "客户评价", testi_sub: "TESTIMONIALS", testi1_text: "“旺虹机器人的QJR65-1系列彻底改变了我们的生产线效率，操作简单，维护成本低，生产效率提升了40%。”", testi1_name: "张经理", testi1_company: "某汽车零部件制造公司",
+            testi2_text: "“我们使用了QJRH4-1进行精密焊接，产品质量一致性大幅提高，售后服务响应迅速，非常专业。”", testi2_name: "李总监", testi2_company: "某电子设备制造企业",
+            testi3_text: "“从传统人工到旺虹机器人自动化解决方案的转型非常顺利，他们的技术支持团队提供了全方位的培训和服务。”", testi3_name: "王总", testi3_company: "某金属加工厂",
+            partner_title: "合作伙伴", partner_sub: "OUR PARTNERS",
+            partner_abb: "ABB", partner_fanuc: "FANUC", partner_kuka: "KUKA",
+            case_title: "应用案例", case_sub: "APPLICATIONS", case1_title: "机器人抛光打磨应用", case2_title: "金属行业焊接应用",
+            case1_desc: "我们的机器人在复杂曲面处理中展现出卓越的自动化优势，能够精确控制抛光力度和路径，确保产品表面质量一致性。",
+            case2_desc: "自动化焊接解决方案实现多工艺自动化，确保焊缝质量一致性，大幅提高生产效率和产品良率。",
+            industry1: "汽车制造", industry2: "航空航天", industry3: "金属加工", adv1: "高一致性", adv2: "效率提升300%", adv3: "多工艺自动化", adv4: "高质量一致性",
+            footer_about: "关于我们", footer_about1: "公司简介", footer_about2: "发展历程", footer_about3: "企业文化",
+            footer_product: "产品中心", footer_product1: "工业机器人", footer_product2: "服务机器人", footer_product3: "解决方案",
+            footer_news: "新闻中心", footer_news1: "公司新闻", footer_news2: "行业动态", footer_news3: "媒体报道",
+            footer_contact: "联系我们", footer_address: "浙江省杭州市余杭区未来科技城",
+            copyright: "© 2023 旺虹机器人有限公司 版权所有 | 浙ICP备12345678号",
+            chat_title: "在线咨询", chat_name: "您的姓名", chat_company: "公司名称", chat_phone: "联系电话", chat_product: "感兴趣的产品", chat_message: "咨询内容", chat_submit: "提交咨询"
+        },
+        en: {
+            logo_title: "Industrial Robot", logo_sub: "Making Smart Manufacturing Simpler",
+            nav_home: "Home", nav_products: "Products", nav_cases: "Cases", nav_services: "Services", nav_about: "About",
+            service1: "Production Optimization", service2: "Inventory Management", service3: "Material Handling",
+            service1_desc: "Integrate robots with MES system to balance production rhythm, automate bottleneck processes, and help customers increase Overall Equipment Efficiency (OEE) by over 20%.",
+            service2_desc: "Smart warehouse with AGV and robotic picking system, enabling automatic inbound, outbound and inventory counting, reducing inventory costs and improving turnover.",
+            service3_desc: "Heavy-duty AGV combined with collaborative robots for automated loading/unloading and cross-workshop transport, reducing manual handling and improving safety.",
+            services_title: "Our Services", services_sub: "OUR SERVICES",
+            search_placeholder: "Search...",
+            banner1: "MAKING SMART", banner2: "MORE SIMPLE", banner_btn: "Learn More",
+            about_p1: "Industrial robot is an automation equipment integrating multidisciplinary advanced technologies such as mechanics, electronics, control, computer, and sensors. It can complete various complex production tasks according to preset programs and instructions. It plays a vital role in industrial engineering, not only improving production efficiency and reducing labor intensity but also ensuring product quality stability and consistency. In modern manufacturing, industrial robots are gradually becoming an indispensable core equipment.",
+            about_p2: "In recent years, with the continuous integration of advanced technologies such as artificial intelligence, big data, and the Internet of Things, industrial robots have ushered in new opportunities. They are moving towards intelligence, flexibility, and collaboration, showing unprecedented development potential and application prospects. In emerging fields such as new energy vehicles and photovoltaic industry, industrial robots have achieved rapid changeover and multi-variety mixed production through digital twin, virtual debugging, multi-machine collaboration and AGV integration, greatly enhancing the market competitiveness of manufacturing enterprises.",
+            about_p3: "Our industrial robot products combine cutting-edge technology and exquisite craftsmanship, featuring high precision, high reliability, and high adaptability. Whether it is complex assembly tasks, high-precision welding operations, or high-speed sorting and handling, they can meet the needs of different industries with excellent performance and stability, bringing significant economic benefits and competitiveness improvement to customers.",
+            pro_title: "Product Showcase", pro_sub: "PRODUCT DISPLAY", pro1_name: "Compact Industrial Robot", pro2_name: "6-Axis Multi-purpose Robot", pro3_name: "Large Industrial Robot",
+            pro1_f1: "Compact design saves space", pro1_f2: "Large working range, flexible operation", pro1_f3: "High precision positioning ±0.02mm",
+            pro2_f1: "Flexible 6-axis design, wide adaptability", pro2_f2: "High load capacity up to 20kg", pro2_f3: "IP67 protection rating for harsh environments",
+            pro3_f1: "Ultra-large working space, radius 3.5m", pro3_f2: "High precision repeatability", pro3_f3: "Multi-industry adaptation solutions",
+            app1_1: "Assembly", app1_2: "Sorting", app1_3: "Inspection",
+            app2_1: "Welding", app2_2: "Loading/Unloading", app2_3: "Spraying",
+            app3_1: "Handling", app3_2: "Polishing", app3_3: "Palletizing",
+            detail_btn: "Details", all_products: "View All Products",
+            video_title: "Video Showcase", video_sub: "VIDEO SHOWCASE", video1_title: "QJR65-1 Assembly Line Application", video2_title: "QJRH4-1 Welding Process Demonstration",
+            testi_title: "Testimonials", testi_sub: "TESTIMONIALS", testi1_text: "\"Wanghong's QJR65-1 series has completely changed our production line efficiency. Simple operation, low maintenance cost, and 40% increase in production efficiency.\"", testi1_name: "Manager Zhang", testi1_company: "Auto Parts Manufacturer",
+            testi2_text: "\"We used QJRH4-1 for precision welding, product quality consistency greatly improved, after-sales service responds quickly and very professional.\"", testi2_name: "Director Li", testi2_company: "Electronics Manufacturing Company",
+            testi3_text: "\"The transition from manual to Wanghong robot automation solution was very smooth. Their technical support team provided comprehensive training and service.\"", testi3_name: "General Manager Wang", testi3_company: "Metal Processing Factory",
+            partner_title: "Partners", partner_sub: "OUR PARTNERS",
+            partner_abb: "ABB", partner_fanuc: "FANUC", partner_kuka: "KUKA",
+            case_title: "Application Cases", case_sub: "APPLICATIONS", case1_title: "Robotic Polishing & Grinding Application", case2_title: "Metalworking Welding Application",
+            case1_desc: "Our robot shows excellent automation advantages in complex surface treatment, precisely controlling polishing force and path to ensure consistent surface quality.",
+            case2_desc: "Automated welding solutions realize multi-process automation, ensure consistent weld quality, greatly improve production efficiency and product yield.",
+            industry1: "Automotive", industry2: "Aerospace", industry3: "Metalworking", adv1: "High consistency", adv2: "Efficiency +300%", adv3: "Multi-process automation", adv4: "High quality consistency",
+            footer_about: "About Us", footer_about1: "Company Profile", footer_about2: "History", footer_about3: "Culture",
+            footer_product: "Products", footer_product1: "Industrial Robots", footer_product2: "Service Robots", footer_product3: "Solutions",
+            footer_news: "News", footer_news1: "Company News", footer_news2: "Industry Trends", footer_news3: "Media Coverage",
+            footer_contact: "Contact Us", footer_address: "Yuhang District, Hangzhou, Zhejiang, China",
+            copyright: "© 2023 Wanghong Robotics Co., Ltd. All Rights Reserved | ICP 12345678",
+            chat_title: "Online Inquiry", chat_name: "Your Name", chat_company: "Company", chat_phone: "Phone", chat_product: "Interested Product", chat_message: "Message", chat_submit: "Submit Inquiry"
+        }
+    };
+
+    let currentLang = 'zh';
+    function updateLanguage(lang) {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName === 'INPUT' && el.hasAttribute('data-i18n-placeholder')) {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerText = translations[lang][key];
+                }
+            }
+        });
+        document.querySelector('.search-box input').placeholder = translations[lang].search_placeholder;
+        currentLang = lang;
+        document.getElementById('langSwitch').innerText = lang === 'zh' ? 'English' : '中文';
+    }
+
+    document.getElementById('langSwitch').addEventListener('click', () => updateLanguage(currentLang === 'zh' ? 'en' : 'zh'));
+    updateLanguage('zh');
+
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mainNav = document.getElementById('main-nav');
+    mobileMenuBtn.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+        const icon = this.querySelector('i');
+        icon.classList.toggle('fa-times');
+        icon.classList.toggle('fa-bars');
+    });
+
+    const serviceDropdownLink = document.querySelector('.has-dropdown > a[href="#services"]');
+    if (serviceDropdownLink) {
+        serviceDropdownLink.addEventListener('click', function(e) {
+            if (window.innerWidth <= 992) {
+                e.preventDefault();
+                this.nextElementSibling.classList.toggle('show-mobile');
+            }
+        });
+    }
+
+    document.querySelectorAll('.submenu li a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                mainNav.classList.remove('active');
+                link.closest('.submenu').classList.remove('show-mobile');
+            }
+        });
+    });
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const chatButton = document.getElementById('chat-button');
+    const chatForm = document.getElementById('chat-form');
+    const closeChat = document.getElementById('close-chat');
+    chatButton.addEventListener('click', () => chatForm.classList.toggle('active'));
+    closeChat.addEventListener('click', () => chatForm.classList.remove('active'));
+    document.getElementById('consultation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert(currentLang === 'zh' ? '咨询已提交，我们的客服人员会尽快与您联系！' : 'Inquiry submitted! Our team will contact you soon.');
+        this.reset();
+        chatForm.classList.remove('active');
+    });
+
+    document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
+                if (window.innerWidth <= 768) mainNav.classList.remove('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>
